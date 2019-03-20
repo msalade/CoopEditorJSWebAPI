@@ -45,7 +45,6 @@ namespace CoopEditorJsServices
 		public async void HandleMessage(string stringMessage, string socketId, Room room, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			Message message = null;
-			JObject jsonMessage = null;
 
 			try
 			{
@@ -80,6 +79,27 @@ namespace CoopEditorJsServices
 
 					return Task.CompletedTask;
 				}).ToArray());
+			}
+		}
+
+		public void SendMessage(string message, WebSocket socket, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			if (message != null && socket != null)
+			{
+				try
+				{
+					lock (socket)
+					{
+						var segmentedMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message));
+						Task sendTask = socket.SendAsync(segmentedMessage, WebSocketMessageType.Text, true, cancellationToken);
+						sendTask.Wait();
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e);
+					throw;
+				}
 			}
 		}
 	}

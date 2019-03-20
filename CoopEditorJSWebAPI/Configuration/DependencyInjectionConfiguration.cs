@@ -7,31 +7,31 @@ using SimpleInjector.Lifestyles;
 
 namespace CoopEditorJSWebAPI.Configuration
 {
-	public class DependencyInjectionConfiguration
+	public static class DependencyInjectionConfiguration
 	{
-		private Container _container { get; }
+		static Container container = new Container();
 
-		public DependencyInjectionConfiguration()
+		public static void IntegrateSimpleInjector(IServiceCollection services)
 		{
-			_container = new Container();
+			container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+			services.EnableSimpleInjectorCrossWiring(container);
+			services.UseSimpleInjectorAspNetRequestScoping(container);
 		}
 
-		public void IntegrateSimpleInjector(IServiceCollection services)
-		{
-			_container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-			services.EnableSimpleInjectorCrossWiring(_container);
-			services.UseSimpleInjectorAspNetRequestScoping(_container);
-		}
-
-		public void InitializeContainer(IApplicationBuilder app)
+		public static void InitializeContainer(IApplicationBuilder app)
 		{
 			//register services
-			_container.Register<IRoomService, RoomService>();
-			_container.Register<IWebSocketsService, WebSocketsService>();
-			_container.Register<IMessageService, MessageService>();
+			container.Register<IRoomService, RoomService>();
+			container.Register<IWebSocketsService, WebSocketsService>();
+			container.Register<IMessageService, MessageService>();
 
-			_container.AutoCrossWireAspNetComponents(app);
+			container.AutoCrossWireAspNetComponents(app);
+		}
+
+		public static Container GetContainer()
+		{
+			return container;
 		}
 	}
 }
