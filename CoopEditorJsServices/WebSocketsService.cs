@@ -42,46 +42,6 @@ namespace CoopEditorJsServices
 			}
 		}
 
-		public async void HandleMessage(string stringMessage, string socketId, Room room, CancellationToken cancellationToken = default(CancellationToken))
-		{
-			Message message = null;
-
-			try
-			{
-				message = JsonConvert.DeserializeObject<Message>(stringMessage);
-			}
-			catch
-			{
-
-			}
-
-			if (message != null)
-			{
-				await Task.WhenAll(room.UsersList.Select<User, Task>(user =>
-				{
-					try
-					{
-						if (user.WebSocket.State == WebSocketState.Open)
-						{
-							lock (user.WebSocket)
-							{
-								var buffer = Encoding.UTF8.GetBytes(stringMessage);
-								var segment = new ArraySegment<byte>(buffer);
-								Task sendTask = user.WebSocket.SendAsync(segment, WebSocketMessageType.Text, true, cancellationToken);
-								sendTask.Wait();
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-
-					}
-
-					return Task.CompletedTask;
-				}).ToArray());
-			}
-		}
-
 		public void SendMessage(string message, WebSocket socket, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			if (message != null && socket != null)

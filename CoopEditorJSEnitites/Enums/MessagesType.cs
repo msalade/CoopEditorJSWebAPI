@@ -2,6 +2,10 @@
 {
 	public enum MessagesType
 	{
-		UpdateCode, CreateRoom, JoinRoom
+		Code,
+		Chat, 
+		Controll,
+		Error,
+		JHS
 	}
 }
