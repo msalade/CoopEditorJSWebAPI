@@ -14,18 +14,14 @@ namespace CoopEditorJsServices.Middleware
 		private readonly RequestDelegate _next;
 		private readonly IWebSocketsService _webSocketsService;
 		private readonly IMessageService _messageService;
-		private readonly IDispatcher _dispatcher;
-		private readonly IMessageHandler<BaseMessage> _messageHandler;
-		private readonly IRoomService _roomService;
+		private readonly IMessageProcessor _messageProcessor;
 
 		public EditorWebSocketMiddleware(RequestDelegate next)
 		{
 			_next = next;
 			_webSocketsService = DependencyInjectionConfiguration.GetContainer().GetInstance<IWebSocketsService>();
 			_messageService = DependencyInjectionConfiguration.GetContainer().GetInstance<IMessageService>();
-			_dispatcher = DependencyInjectionConfiguration.GetContainer().GetInstance<IDispatcher>();
-			_messageHandler = DependencyInjectionConfiguration.GetContainer().GetInstance<IMessageHandler<BaseMessage>>();
-			_roomService = DependencyInjectionConfiguration.GetContainer().GetInstance<IRoomService>();
+			_messageProcessor = DependencyInjectionConfiguration.GetContainer().GetInstance<IMessageProcessor>();
 		}
 
 		public async Task InvokeAsync(HttpContext context)
@@ -39,29 +35,25 @@ namespace CoopEditorJsServices.Middleware
 			CancellationToken requesdToken = context.RequestAborted;
 			WebSocket currentSocket = await context.WebSockets.AcceptWebSocketAsync();
 
-			_roomService.AddNewUser(Guid.NewGuid().ToString(), currentSocket);
-
 			while (currentSocket.State == WebSocketState.Open && !requesdToken.IsCancellationRequested)
 			{
 				try
 				{
-					string response = await _webSocketsService.ExtractMessage(currentSocket, requesdToken);
-					var message = _messageService.ParseMessage(response);
-					_messageHandler.Handle(message);
-
-
-					if (!_dispatcher.IsEmpty())
-						_dispatcher.InvokePending();
+					string rawMessage = await _webSocketsService.ExtractMessage(currentSocket, requesdToken);
+					var extractedMessage = _messageService.DeserializeMessage(rawMessage);
+					_messageProcessor.ProcessMessage(extractedMessage);
 				}
 				catch (WebSocketException ex)
 				{
-					_messageHandler.Handle(new ErrorMessage(ex.Message));
+					_messageProcessor.ProcessMessage(new ErrorMessage(ex.Message));
 				}
 				catch (Exception ex)
 				{
-					_messageHandler.Handle(new ErrorMessage(ex.Message));
+					_messageProcessor.ProcessMessage(new ErrorMessage(ex.Message));
 				}
 			}
+
+			await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure", requesdToken);
 		}
 	}
 }

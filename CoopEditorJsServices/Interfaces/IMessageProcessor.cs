@@ -2,8 +2,8 @@
 
 namespace CoopEditorJsServices.Interfaces
 {
-	public interface IMessageHandler<T> where T : BaseMessage
+	public interface IMessageProcessor
 	{
-		bool Handle(T message);
+		void ProcessMessage(dynamic message);
 	}
 }

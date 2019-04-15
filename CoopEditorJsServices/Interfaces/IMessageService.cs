@@ -1,9 +1,8 @@
-﻿using CoopEditorJSEnitites.Messages;
-
-namespace CoopEditorJsServices.Interfaces
+﻿namespace CoopEditorJsServices.Interfaces
 {
 	public interface IMessageService
 	{
-		BaseMessage ParseMessage(string message);
+		dynamic DeserializeMessage(dynamic message);
+		string ParseMessage(dynamic message);
 	}
 }

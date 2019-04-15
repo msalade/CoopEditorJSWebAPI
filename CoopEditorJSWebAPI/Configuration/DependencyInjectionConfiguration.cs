@@ -1,6 +1,5 @@
 ﻿using CoopEditorJsServices;
 using CoopEditorJsServices.Interfaces;
-using CoopEditorJSEnitites.Messages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleInjector;
@@ -23,14 +22,13 @@ namespace CoopEditorJSWebAPI.Configuration
 		public static void InitializeContainer(IApplicationBuilder app)
 		{
 			//register singletion
-			container.RegisterSingleton<IDispatcher, Dispatcher>();
 			container.RegisterSingleton<IRoomService, RoomService>();
 
 			//register services
 			container.Register<IWebSocketsService, WebSocketsService>();
 			container.Register<IMessageService, MessageService>();
-			container.Register<IMessageHandler<BaseMessage>, MessageHendler>();
-
+			container.Register(typeof(IMessageHandler<>), typeof(IMessageHandler<>).Assembly);
+			container.Register<IMessageProcessor>(() => new MessageProcessor(container));
 			container.AutoCrossWireAspNetComponents(app);
 		}
 

@@ -1,5 +1,4 @@
-﻿using CoopEditorJsServices.Interfaces;
-using CoopEditorJsServices.Middleware;
+﻿using CoopEditorJsServices.Middleware;
 using CoopEditorJSWebAPI.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

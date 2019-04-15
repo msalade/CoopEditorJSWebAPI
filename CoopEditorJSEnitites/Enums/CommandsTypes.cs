@@ -3,6 +3,7 @@
 	public enum CommandsTypes
 	{
 		CreateRoom,
-		JoinToRoom
+		JoinToRoom,
+		ExitRoom
 	}
 }

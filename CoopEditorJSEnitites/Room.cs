@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CoopEditorJSEnitites
 {
@@ -8,6 +9,7 @@ namespace CoopEditorJSEnitites
 		{
 			Name = name;
 			IsPublic = isPublic;
+			Id = Guid.NewGuid().ToString();
 		}
 
 		public string Id { get; set; }

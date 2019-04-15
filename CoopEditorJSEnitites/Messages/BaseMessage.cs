@@ -4,6 +4,7 @@ namespace CoopEditorJSEnitites.Messages
 {
 	public class BaseMessage
 	{
-		public MessagesType Type;
+		public MessagesType Type { get; set; }
+		public string OwnerId { get; set; }
 	}
 }
