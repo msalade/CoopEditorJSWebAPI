@@ -8,8 +8,8 @@ namespace CoopEditorJsServices.MessageHandlers
         public CodeMessageHandler(IRoomService roomService) : base(roomService) { }
 
         public bool Handle(CodeMessage message)
-		{
-			throw new System.NotImplementedException();
-		}
+        {
+            return true;
+        }
     }
 }

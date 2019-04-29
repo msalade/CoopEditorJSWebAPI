@@ -29,11 +29,8 @@ namespace CoopEditorJsServices
 				?.UsersList?.RemoveWhere(user => user.Id == id);
 		}
 
-		public User GetUser(string id, string roomId, bool isPublicRoom = false)
+		public User GetUser(string id, string roomId)
 		{
-			if (isPublicRoom)
-				return _globalRoom.UsersList.FirstOrDefault(user => user.Id == id);
-
 			return _privateRooms.FirstOrDefault(room => room.Id == roomId)
 				?.UsersList?.FirstOrDefault(user => user.Id == id);
 		}
@@ -53,5 +50,18 @@ namespace CoopEditorJsServices
 
 			return newRoom.Id;
 		}
+
+        public void UpdateRoomContent(string content, string roomId)
+        {
+            var targetRoom = _privateRooms.FirstOrDefault(room => room.Id == roomId);
+            if(targetRoom != null)
+                targetRoom.EditorContent = content;
+        }
+
+        public void SendChatMessage(ChatElement chatMessage, string roomId)
+        {
+            _privateRooms.FirstOrDefault(room => room.Id == roomId)?.ChatList?.Add(chatMessage); ;
+            
+        }
 	}
 }

@@ -12,7 +12,8 @@ namespace CoopEditorJsServices.MessageHandlers
         {
             if (message.CommandType == CommandsTypes.JoinToRoom)
             {
-
+                _roomService.EnterRoom(message.User, message.RoomId);
+                return true;
             }
 
             return false;

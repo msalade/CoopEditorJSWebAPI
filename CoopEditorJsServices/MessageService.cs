@@ -1,7 +1,6 @@
 ﻿using System;
 using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites;
-using CoopEditorJSEnitites.Enums;
 using CoopEditorJSEnitites.Messages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

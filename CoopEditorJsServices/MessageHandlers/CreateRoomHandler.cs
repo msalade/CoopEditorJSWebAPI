@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CoopEditorJsServices.Interfaces;
+﻿using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites.Enums;
 using CoopEditorJSEnitites.Messages;
 
@@ -15,7 +12,7 @@ namespace CoopEditorJsServices.MessageHandlers
         {
             if (message.CommandType == CommandsTypes.CreateRoom)
             {
-
+                _roomService.CreateRoom(message.User, message.Content);
             }
 
             return false;
