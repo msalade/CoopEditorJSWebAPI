@@ -1,35 +1,37 @@
 ﻿using System;
 using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites;
+using CoopEditorJSEnitites.Enums;
 using CoopEditorJSEnitites.Messages;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CoopEditorJsServices
 {
 	public class MessageService : IMessageService
 	{
-		public dynamic DeserializeMessage(dynamic message)
+		public dynamic DeserializeMessage(string message)
 		{
 			try
-			{
-				var deserializeObject = JsonConvert.DeserializeObject(message);
-
-				switch (deserializeObject?.GetType().ToString())
+            {
+                dynamic jMessage = JObject.Parse(message);
+				
+				switch (jMessage.type.ToString())
 				{
-					case "ChatMessage":
-						return (ChatMessage) deserializeObject;
-					case "CodeMessage":
-						return (CodeMessage) deserializeObject;
-					case "ControllMessage":
-						return (ControllMessage) deserializeObject;
-					case "ErrorMessage":
-						return (ErrorMessage) deserializeObject;
-					case "JHSMessage":
-						return (JHSMessage) deserializeObject;
-					default:
-						return (BaseMessage) deserializeObject;
+					case "Chat":
+                        return JsonConvert.DeserializeObject<ChatMessage>(message);
+                    case "Code":
+						return JsonConvert.DeserializeObject<CodeMessage>(message);
+                    case "Controll":
+						return JsonConvert.DeserializeObject<ControllMessage>(message);
+                    case "Error":
+						return JsonConvert.DeserializeObject<ErrorMessage>(message);
+                    case "JHS":
+						return JsonConvert.DeserializeObject<JHSMessage>(message);
+                    default:
+						return JsonConvert.DeserializeObject<BaseMessage>(message);
 				}
-			}
+            }
 			catch (Exception e)
 			{
 				return new ErrorMessage(e.Message);

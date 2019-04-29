@@ -15,6 +15,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\..\..\.nuget\packages\newtonsoft.json\11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\simpleinjector\4.4.3\lib\netstandard2.0\SimpleInjector.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace CoopEditorJSEnitites.Messages
 	{
 		public string Content { get; set; } = "";
 		[JsonConverter(typeof(StringEnumConverter))]
-		public CommandsTypes CommandsTypes { get; set; }
+		public CommandsTypes CommandType { get; set; }
 		[JsonConverter(typeof(StringEnumConverter))]
 		public MessagesType Type => MessagesType.Controll;
 	}

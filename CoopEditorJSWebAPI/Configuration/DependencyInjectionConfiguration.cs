@@ -9,7 +9,7 @@ namespace CoopEditorJSWebAPI.Configuration
 {
 	public static class DependencyInjectionConfiguration
 	{
-		static Container container = new Container();
+		static readonly Container container = new Container();
 
 		public static void IntegrateSimpleInjector(IServiceCollection services)
 		{
@@ -21,16 +21,18 @@ namespace CoopEditorJSWebAPI.Configuration
 
 		public static void InitializeContainer(IApplicationBuilder app)
 		{
-			//register singletion
+			//register singleton
 			container.RegisterSingleton<IRoomService, RoomService>();
 
 			//register services
 			container.Register<IWebSocketsService, WebSocketsService>();
 			container.Register<IMessageService, MessageService>();
-			container.Register(typeof(IMessageHandler<>), typeof(IMessageHandler<>).Assembly);
 			container.Register<IMessageProcessor>(() => new MessageProcessor(container));
 			container.AutoCrossWireAspNetComponents(app);
-		}
+
+            //register handlers
+            container.RegisterCollection(typeof(IMessageHandler<>), typeof(IMessageHandler<>).Assembly);
+        }
 
 		public static Container GetContainer()
 		{

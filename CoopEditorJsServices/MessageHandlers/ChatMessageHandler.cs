@@ -3,11 +3,15 @@ using CoopEditorJSEnitites.Messages;
 
 namespace CoopEditorJsServices.MessageHandlers
 {
-	public class ChatMessageHandler : IMessageHandler<ChatMessage>
-	{
-		public bool Handle(ChatMessage message)
-		{
-			throw new System.NotImplementedException();
-		}
-	}
+	public class ChatMessageHandler : BaseMessageHandler<ChatMessage>
+    {
+        public ChatMessageHandler(IRoomService roomService) : base(roomService) { }
+
+        public bool Handle(ChatMessage message)
+        {
+            //TODO add method to send message to chat members
+
+            return true;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 {
 	public interface IMessageService
 	{
-		dynamic DeserializeMessage(dynamic message);
+		dynamic DeserializeMessage(string message);
 		string ParseMessage(dynamic message);
 	}
 }

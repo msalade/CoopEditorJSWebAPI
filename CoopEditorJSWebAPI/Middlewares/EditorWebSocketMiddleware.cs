@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using CoopEditorJsServices.Interfaces;
+using CoopEditorJSEnitites;
 using CoopEditorJSEnitites.Messages;
 using CoopEditorJSWebAPI.Configuration;
 using Microsoft.AspNetCore.Http;
@@ -32,16 +33,23 @@ namespace CoopEditorJsServices.Middleware
 				return;
 			}
 
-			CancellationToken requesdToken = context.RequestAborted;
-			WebSocket currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+			var requestToken = context.RequestAborted;
+			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var currentUser = new User(currentSocket);
 
-			while (currentSocket.State == WebSocketState.Open && !requesdToken.IsCancellationRequested)
+			while (currentSocket.State == WebSocketState.Open && !requestToken.IsCancellationRequested)
 			{
 				try
 				{
-					string rawMessage = await _webSocketsService.ExtractMessage(currentSocket, requesdToken);
-					var extractedMessage = _messageService.DeserializeMessage(rawMessage);
-					_messageProcessor.ProcessMessage(extractedMessage);
+                    var rawMessage = await _webSocketsService.ExtractMessage(currentSocket, requestToken);
+
+                    if (!string.IsNullOrEmpty(rawMessage))
+                    {
+                         var extractedMessage = _messageService.DeserializeMessage(rawMessage);
+                         extractedMessage.User = currentUser;
+
+                        _messageProcessor.ProcessMessage(extractedMessage);
+                    }
 				}
 				catch (WebSocketException ex)
 				{
@@ -53,7 +61,7 @@ namespace CoopEditorJsServices.Middleware
 				}
 			}
 
-			await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure", requesdToken);
+			await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure", requestToken);
 		}
 	}
 }

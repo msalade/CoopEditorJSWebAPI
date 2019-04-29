@@ -8,6 +8,6 @@ namespace CoopEditorJSEnitites.Messages
 	{
 		public string Content { get; set; } = "";
 		[JsonConverter(typeof(StringEnumConverter))]
-		public LanguagesTypes LanguagesTypes { get; set; }
+		public LanguagesTypes LanguageType { get; set; }
 	}
 }

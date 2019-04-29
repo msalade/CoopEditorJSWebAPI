@@ -3,11 +3,13 @@ using CoopEditorJSEnitites;
 
 namespace CoopEditorJsServices.MessageHandlers
 {
-	public class JHSMessageHandler : IMessageHandler<JHSMessage>
+	public class JHSMessageHandler : BaseMessageHandler<JHSMessage>
 	{
-		public bool Handle(JHSMessage message)
+        public JHSMessageHandler(IRoomService roomService) : base(roomService) { }
+
+        public bool Handle(JHSMessage message)
 		{
 			throw new System.NotImplementedException();
 		}
-	}
+    }
 }

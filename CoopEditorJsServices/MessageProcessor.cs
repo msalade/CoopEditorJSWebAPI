@@ -15,13 +15,12 @@ namespace CoopEditorJsServices
 		public void ProcessMessage(dynamic message)
 		{
 			var type = typeof(IMessageHandler<>).MakeGenericType(message.GetType());
-			var handler = _container.GetAllInstances(type);
-			foreach (var messageHandler in handler)
+			var handlers = _container.GetAllInstances(type);
+
+			foreach (var messageHandler in handlers)
 			{
 				if (messageHandler.Handle(message))
-				{
-					break;
-				}
+				    break;
 			}
 		}
 	}
