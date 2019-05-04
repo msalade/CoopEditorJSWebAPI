@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System.Collections.Generic;
+using System.Net.WebSockets;
 using CoopEditorJSEnitites;
 
 namespace CoopEditorJsServices.Interfaces
@@ -12,5 +13,7 @@ namespace CoopEditorJsServices.Interfaces
 		string CreateRoom(User user, string roomName = "");
         void UpdateRoomContent(string content, string roomId);
         void SendChatMessage(ChatElement chatMessage, string roomId);
+        IEnumerable<Room> GetAllRooms();
+        Room GetRoom(string id);
     }
 }

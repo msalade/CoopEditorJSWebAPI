@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Threading.Tasks;
 using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites;
 
@@ -9,14 +10,14 @@ namespace CoopEditorJsServices
 	public class RoomService : IRoomService
 	{
 		private readonly Room _globalRoom;
-		private readonly HashSet<Room> _privateRooms;
+        private readonly HashSet<Room> _privateRooms;
 
-		public RoomService()
+        public RoomService()
 		{
 			_globalRoom = new Room("Global room");
 			_globalRoom.UsersList = new HashSet<User>();
 			_privateRooms = new HashSet<Room>();
-		}
+        }
 
 		public void AddNewUser(WebSocket socket)
 		{
@@ -53,15 +54,32 @@ namespace CoopEditorJsServices
 
         public void UpdateRoomContent(string content, string roomId)
         {
-            var targetRoom = _privateRooms.FirstOrDefault(room => room.Id == roomId);
-            if(targetRoom != null)
-                targetRoom.EditorContent = content;
+            Task.Run(() =>
+            {
+                var targetRoom = _privateRooms.FirstOrDefault(room => room.Id == roomId);
+                if (targetRoom != null)
+                {
+                    targetRoom.EditorContent = content;
+                }
+            });
         }
 
         public void SendChatMessage(ChatElement chatMessage, string roomId)
         {
-            _privateRooms.FirstOrDefault(room => room.Id == roomId)?.ChatList?.Add(chatMessage); ;
-            
+            Task.Run(() =>
+            {
+                _privateRooms.FirstOrDefault(room => room.Id == roomId)?.ChatList?.Add(chatMessage);          
+            });
         }
-	}
+
+        public IEnumerable<Room> GetAllRooms()
+        {
+            return _privateRooms;
+        }
+
+        public Room GetRoom(string id)
+        {
+            return _privateRooms.FirstOrDefault(room => room.Id == id);
+        }
+    }
 }

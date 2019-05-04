@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Net.WebSockets;
-using System.Threading;
 using System.Threading.Tasks;
 using CoopEditorJsServices.Interfaces;
-using CoopEditorJSEnitites;
 using CoopEditorJSEnitites.Messages;
 using CoopEditorJSWebAPI.Configuration;
 using Microsoft.AspNetCore.Http;
@@ -35,9 +33,10 @@ namespace CoopEditorJsServices.Middleware
 
 			var requestToken = context.RequestAborted;
 			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
-            var currentUser = new User(currentSocket);
+            var userId = Guid.NewGuid().ToString();
 
-			while (currentSocket.State == WebSocketState.Open && !requestToken.IsCancellationRequested)
+
+            while (currentSocket.State == WebSocketState.Open && !requestToken.IsCancellationRequested)
 			{
 				try
 				{
@@ -46,7 +45,8 @@ namespace CoopEditorJsServices.Middleware
                     if (!string.IsNullOrEmpty(rawMessage))
                     {
                          var extractedMessage = _messageService.DeserializeMessage(rawMessage);
-                         extractedMessage.User = currentUser;
+                         extractedMessage.User.WebSocket = currentSocket;
+                         extractedMessage.User.Id = userId;
 
                         _messageProcessor.ProcessMessage(extractedMessage);
                     }

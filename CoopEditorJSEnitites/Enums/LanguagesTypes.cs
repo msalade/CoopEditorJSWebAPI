@@ -3,9 +3,22 @@ namespace CoopEditorJSEnitites.Enums
 {
 	public enum LanguagesTypes
 	{
-		HTML,
-		JS,
-		CSS,
-		JSC
-	}
+        javascript,
+        java,
+        python,
+        xml,
+        ruby,
+        sass,
+        markdown,
+        mysql,
+        json,
+        html,
+        handlebars,
+        golang,
+        csharp,
+        elixir,
+        typescript,
+        css,
+        JCH
+    }
 }

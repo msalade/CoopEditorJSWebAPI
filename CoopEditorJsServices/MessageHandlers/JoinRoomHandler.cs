@@ -6,13 +6,26 @@ namespace CoopEditorJsServices.MessageHandlers
 {
     class JoinRoomHandler : BaseMessageHandler<ControllMessage>
     {
-        public JoinRoomHandler(IRoomService roomService) : base(roomService) { }
+        private readonly IWebSocketsService _webSocketsService;
+
+        public JoinRoomHandler(IRoomService roomService, IWebSocketsService webSocketsService) : base(roomService)
+        {
+            _webSocketsService = webSocketsService;
+        }
 
         public bool Handle(ControllMessage message)
         {
             if (message.CommandType == CommandsTypes.JoinToRoom)
             {
                 _roomService.EnterRoom(message.User, message.RoomId);
+                var targetRoom = _roomService.GetRoom(message.RoomId);
+
+                _webSocketsService.SendMessage(new CodeMessage
+                {
+                    Content = targetRoom.EditorContent,
+                    LanguageType = targetRoom.TypeCode
+                }, message.User.WebSocket);
+
                 return true;
             }
 

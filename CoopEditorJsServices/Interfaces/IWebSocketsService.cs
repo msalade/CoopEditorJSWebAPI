@@ -8,6 +8,6 @@ namespace CoopEditorJsServices.Interfaces
 	public interface IWebSocketsService
 	{
 		Task<string> ExtractMessage(WebSocket socket, CancellationToken cancellationToken = default(CancellationToken));
-		void SendMessage(string message, WebSocket socket, CancellationToken cancellationToken = default(CancellationToken));
+		void SendMessage(dynamic message, WebSocket socket, CancellationToken cancellationToken = default(CancellationToken));
 	}
 }

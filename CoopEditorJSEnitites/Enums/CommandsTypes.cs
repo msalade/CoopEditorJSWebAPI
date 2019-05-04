@@ -4,6 +4,8 @@
 	{
 		CreateRoom,
 		JoinToRoom,
-		ExitRoom
+		ExitRoom,
+        UpdateInformation,
+        ChangeCodeType
 	}
 }

@@ -25,8 +25,6 @@ namespace CoopEditorJsServices
 						return JsonConvert.DeserializeObject<ControllMessage>(message);
                     case "Error":
 						return JsonConvert.DeserializeObject<ErrorMessage>(message);
-                    case "JHS":
-						return JsonConvert.DeserializeObject<JHSMessage>(message);
                     default:
 						return JsonConvert.DeserializeObject<BaseMessage>(message);
 				}
