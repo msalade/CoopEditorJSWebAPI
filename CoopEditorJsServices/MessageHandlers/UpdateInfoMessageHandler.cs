@@ -23,7 +23,12 @@ namespace CoopEditorJsServices.MessageHandlers
             {
                 _webSocketsService.SendMessage(new ControllMessage
                 {
-                    Content = _messageService.ParseMessage(new UserInfo { RoomId = message.RoomId, Rooms = _roomService.GetAllRooms() }),
+                    Content = _messageService.ParseMessage(new UserInfo
+                    {
+                        RoomId = message.RoomId,
+                        Rooms = _roomService.GetAllRooms(),
+                        UserId = message.User.Id
+                    }),
                     CommandType = CommandsTypes.UpdateInformation,
                     User = null
                 }, message.User.WebSocket);

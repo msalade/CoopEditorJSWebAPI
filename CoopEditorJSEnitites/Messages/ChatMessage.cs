@@ -6,7 +6,7 @@ namespace CoopEditorJSEnitites.Messages
 {
 	public class ChatMessage : BaseMessage
 	{
-		public string Content { get; set; }
+		public ChatElement Content { get; set; }
 		[JsonConverter(typeof(StringEnumConverter))]
 		public MessagesType Type => MessagesType.Chat;
 	}
