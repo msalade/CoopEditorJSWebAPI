@@ -33,8 +33,15 @@ namespace CoopEditorJsServices
             Task.Run(() =>
             {
                 var usersList = _privateRooms.FirstOrDefault(room => room.Id == roomId)?.UsersList;
-                if (usersList != null && usersList.FirstOrDefault(x => x.Id == user.Id) == null)
-                    usersList.Add(user);
+                var existingUser = usersList?.FirstOrDefault(x => x.Id == user.Id);
+                if (existingUser == null)
+                {
+                    usersList?.Add(user);
+                }
+                else
+                {
+                    existingUser.WebSocket = user.WebSocket;
+                }
             });
         }
 
