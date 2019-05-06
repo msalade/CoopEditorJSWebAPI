@@ -20,11 +20,11 @@ namespace CoopEditorJsServices.MessageHandlers
 
             if (targetRoom?.UsersList != null)
             {
+                _roomService.EnterRoom(message.User, message.RoomId);
+
                 foreach (var user in targetRoom.UsersList)
-                {
                     if(user.WebSocket.State == WebSocketState.Open)
                         _webSocketsService.SendMessage(message, user.WebSocket);
-                }
             }
 
             return true;

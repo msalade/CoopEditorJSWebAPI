@@ -33,8 +33,6 @@ namespace CoopEditorJsServices.Middleware
 
 			var requestToken = context.RequestAborted;
 			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
-            var userId = Guid.NewGuid().ToString();
-
 
             while (currentSocket.State == WebSocketState.Open && !requestToken.IsCancellationRequested)
 			{
@@ -46,7 +44,6 @@ namespace CoopEditorJsServices.Middleware
                     {
                          var extractedMessage = _messageService.DeserializeMessage(rawMessage);
                          extractedMessage.User.WebSocket = currentSocket;
-                         extractedMessage.User.Id = userId;
 
                         _messageProcessor.ProcessMessage(extractedMessage);
                     }
@@ -61,7 +58,7 @@ namespace CoopEditorJsServices.Middleware
 				}
 			}
 
-			await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure", requestToken);
+            await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure", requestToken);
 		}
 	}
 }

@@ -18,9 +18,13 @@ namespace CoopEditorJsServices.MessageHandlers
             _roomService.SendChatMessage(message?.Content, message?.RoomId);
             var usersList = _roomService.GetRoom(message?.RoomId)?.UsersList;
             if (usersList != null)
+            {
+                _roomService.EnterRoom(message.User, message.RoomId);
+
                 foreach (var user in usersList)
-                    if(user.WebSocket.State == WebSocketState.Open)
+                    if (user.WebSocket.State == WebSocketState.Open)
                         _webSocketsService.SendMessage(message, user.WebSocket);
+            }    
 
             return true;
         }

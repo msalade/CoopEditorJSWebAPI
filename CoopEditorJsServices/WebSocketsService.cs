@@ -56,14 +56,12 @@ namespace CoopEditorJsServices
 					lock (socket)
 					{
 						var segmentedMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(stringMessage));
-						Task sendTask = socket.SendAsync(segmentedMessage, WebSocketMessageType.Text, true, cancellationToken);
-						sendTask.Wait();
+					    socket.SendAsync(segmentedMessage, WebSocketMessageType.Text, true, cancellationToken).Wait(cancellationToken);
 					}
 				}
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
-					throw;
 				}
 			}
 		}

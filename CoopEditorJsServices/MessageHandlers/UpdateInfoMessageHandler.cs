@@ -1,4 +1,5 @@
-﻿using CoopEditorJsServices.Interfaces;
+﻿using System;
+using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites;
 using CoopEditorJSEnitites.Enums;
 using CoopEditorJSEnitites.Messages;
@@ -27,7 +28,7 @@ namespace CoopEditorJsServices.MessageHandlers
                     {
                         RoomId = message.RoomId,
                         Rooms = _roomService.GetAllRooms(),
-                        UserId = message.User.Id
+                        UserId = String.IsNullOrEmpty(message.User.Id) ? Guid.NewGuid().ToString() : message.User.Id
                     }),
                     CommandType = CommandsTypes.UpdateInformation,
                     User = null

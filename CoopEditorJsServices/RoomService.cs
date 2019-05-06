@@ -30,9 +30,12 @@ namespace CoopEditorJsServices
 
 		public void EnterRoom(User user, string roomId)
 		{
-            var usersList = _privateRooms.FirstOrDefault(room => room.Id == roomId)?.UsersList;
-            if (usersList != null && usersList.FirstOrDefault(x => x.Id == user.Id) == null)
-                usersList.Add(user);
+            Task.Run(() =>
+            {
+                var usersList = _privateRooms.FirstOrDefault(room => room.Id == roomId)?.UsersList;
+                if (usersList != null && usersList.FirstOrDefault(x => x.Id == user.Id) == null)
+                    usersList.Add(user);
+            });
         }
 
 		public string CreateRoom(User user, string roomName = "")
