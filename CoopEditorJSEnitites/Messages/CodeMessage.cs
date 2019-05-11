@@ -9,5 +9,7 @@ namespace CoopEditorJSEnitites.Messages
 		public string Content { get; set; } = "";
 		[JsonConverter(typeof(StringEnumConverter))]
 		public LanguagesTypes LanguageType { get; set; }
-	}
+        [JsonConverter(typeof(StringEnumConverter))]
+        public MessagesType Type => MessagesType.Code;
+    }
 }

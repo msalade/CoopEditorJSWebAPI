@@ -1,4 +1,6 @@
 ﻿using CoopEditorJSEnitites.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CoopEditorJSEnitites.Messages
 {
@@ -10,6 +12,7 @@ namespace CoopEditorJSEnitites.Messages
 		}
 
 		public string Content { get; set; }
-		public MessagesType Type => MessagesType.Error;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public MessagesType Type => MessagesType.Error;
 	}
 }

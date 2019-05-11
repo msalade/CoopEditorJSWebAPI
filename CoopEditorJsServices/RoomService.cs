@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Threading.Tasks;
 using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites;
 
@@ -8,20 +9,12 @@ namespace CoopEditorJsServices
 {
 	public class RoomService : IRoomService
 	{
-		private readonly Room _globalRoom;
-		private readonly HashSet<Room> _privateRooms;
+        private readonly HashSet<Room> _privateRooms;
 
-		public RoomService()
+        public RoomService()
 		{
-			_globalRoom = new Room("Global room");
-			_globalRoom.UsersList = new HashSet<User>();
 			_privateRooms = new HashSet<Room>();
-		}
-
-		public void AddNewUser(WebSocket socket)
-		{
-			_globalRoom.UsersList?.Add(new User(socket));
-		}
+        }
 
 		public void RemoveUser(string id, string roomId)
 		{
@@ -29,20 +22,28 @@ namespace CoopEditorJsServices
 				?.UsersList?.RemoveWhere(user => user.Id == id);
 		}
 
-		public User GetUser(string id, string roomId, bool isPublicRoom = false)
+		public User GetUser(string id, string roomId)
 		{
-			if (isPublicRoom)
-				return _globalRoom.UsersList.FirstOrDefault(user => user.Id == id);
-
 			return _privateRooms.FirstOrDefault(room => room.Id == roomId)
 				?.UsersList?.FirstOrDefault(user => user.Id == id);
 		}
 
 		public void EnterRoom(User user, string roomId)
 		{
-			_privateRooms.FirstOrDefault(room => room.Id == roomId)
-				?.UsersList?.Add(user);
-		}
+            Task.Run(() =>
+            {
+                var usersList = _privateRooms.FirstOrDefault(room => room.Id == roomId)?.UsersList;
+                var existingUser = usersList?.FirstOrDefault(x => x.Id == user.Id);
+                if (existingUser == null)
+                {
+                    usersList?.Add(user);
+                }
+                else
+                {
+                    existingUser.WebSocket = user.WebSocket;
+                }
+            });
+        }
 
 		public string CreateRoom(User user, string roomName = "")
 		{
@@ -53,5 +54,35 @@ namespace CoopEditorJsServices
 
 			return newRoom.Id;
 		}
-	}
+
+        public void UpdateRoomContent(string content, string roomId)
+        {
+            Task.Run(() =>
+            {
+                var targetRoom = _privateRooms.FirstOrDefault(room => room.Id == roomId);
+                if (targetRoom != null)
+                {
+                    targetRoom.EditorContent = content;
+                }
+            });
+        }
+
+        public void SendChatMessage(ChatElement chatMessage, string roomId)
+        {
+            Task.Run(() =>
+            {
+                _privateRooms.FirstOrDefault(room => room.Id == roomId)?.ChatList?.Add(chatMessage);          
+            });
+        }
+
+        public IEnumerable<Room> GetAllRooms()
+        {
+            return _privateRooms;
+        }
+
+        public Room GetRoom(string id)
+        {
+            return _privateRooms.FirstOrDefault(room => room.Id == id);
+        }
+    }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CoopEditorJsServices.Interfaces;
+﻿using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites.Enums;
 using CoopEditorJSEnitites.Messages;
 
@@ -15,7 +12,8 @@ namespace CoopEditorJsServices.MessageHandlers
         {
             if (message.CommandType == CommandsTypes.ExitRoom)
             {
-
+                _roomService.RemoveUser(message.User.Id, message.RoomId);
+                return true;
             }
 
             return false;

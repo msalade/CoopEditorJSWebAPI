@@ -4,12 +4,19 @@ using CoopEditorJSEnitites.Messages;
 namespace CoopEditorJsServices.MessageHandlers
 {
 	public class ErrorMessageHandler : BaseMessageHandler<ErrorMessage>
-	{
-        public ErrorMessageHandler(IRoomService roomService) : base(roomService) { }
+    {
+        private readonly IWebSocketsService _webSocketsService;
+
+        public ErrorMessageHandler(IRoomService roomService, IWebSocketsService webSocketsService) : base(roomService)
+        {
+            _webSocketsService = webSocketsService;
+        }
 
         public bool Handle(ErrorMessage message)
-		{
-			throw new System.NotImplementedException();
-		}
+        {
+			_webSocketsService.SendMessage(message, message.User.WebSocket);
+
+            return true;
+        }
     }
 }

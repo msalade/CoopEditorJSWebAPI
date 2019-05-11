@@ -21,7 +21,7 @@ namespace CoopEditorJSWebAPI
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-			DependencyInjectionConfiguration.IntegrateSimpleInjector(services);
+            DependencyInjectionConfiguration.IntegrateSimpleInjector(services);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -30,10 +30,9 @@ namespace CoopEditorJSWebAPI
 			loggerFactory.AddConsole(LogLevel.Debug);
 			loggerFactory.AddDebug(LogLevel.Debug);
 
-			app.UseWebSockets();
+            app.UseWebSockets();
 			app.Map("/editor", App => App.UseMiddleware<EditorWebSocketMiddleware>());
-
-			app.UseMvc();
+            app.UseMvc();
 		}
 	}
 }

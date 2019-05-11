@@ -9,7 +9,14 @@ using CoopEditorJsServices.Interfaces;
 namespace CoopEditorJsServices
 {
 	public class WebSocketsService : IWebSocketsService
-	{
+    {
+        private readonly IMessageService _messageService;
+
+        public WebSocketsService(IMessageService messageService)
+        {
+            _messageService = messageService;
+        }
+
 		public async Task<string> ExtractMessage(WebSocket socket, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			var buffer = new ArraySegment<byte>(new byte[8192]);
@@ -38,23 +45,23 @@ namespace CoopEditorJsServices
 			}
 		}
 
-		public void SendMessage(string message, WebSocket socket, CancellationToken cancellationToken = default(CancellationToken))
+		public void SendMessage(dynamic message, WebSocket socket, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			if (message != null && socket != null)
 			{
 				try
-				{
+                {
+                    var stringMessage = _messageService.ParseMessage(message);
+
 					lock (socket)
 					{
-						var segmentedMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message));
-						Task sendTask = socket.SendAsync(segmentedMessage, WebSocketMessageType.Text, true, cancellationToken);
-						sendTask.Wait();
+						var segmentedMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(stringMessage));
+					    socket.SendAsync(segmentedMessage, WebSocketMessageType.Text, true, cancellationToken).Wait(cancellationToken);
 					}
 				}
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
-					throw;
 				}
 			}
 		}
