@@ -21,8 +21,8 @@ namespace CoopEditorJsServices
                         return JsonConvert.DeserializeObject<ChatMessage>(message);
                     case "Code":
 						return JsonConvert.DeserializeObject<CodeMessage>(message);
-                    case "Controll":
-						return JsonConvert.DeserializeObject<ControllMessage>(message);
+                    case "Control":
+						return JsonConvert.DeserializeObject<ControlMessage>(message);
                     case "Error":
 						return JsonConvert.DeserializeObject<ErrorMessage>(message);
                     default:

@@ -6,7 +6,7 @@ using CoopEditorJSEnitites.Messages;
 
 namespace CoopEditorJsServices.MessageHandlers
 {
-    public class UpdateInfoMessageHandler : BaseMessageHandler<ControllMessage>
+    public class UpdateInfoMessageHandler : BaseMessageHandler<ControlMessage>
     {
         private readonly IWebSocketsService _webSocketsService;
         private readonly IMessageService _messageService;
@@ -18,11 +18,11 @@ namespace CoopEditorJsServices.MessageHandlers
             _messageService = messageService;
         }
 
-        public bool Handle(ControllMessage message)
+        public bool Handle(ControlMessage message)
         {
             if (message.CommandType == CommandsTypes.UpdateInformation)
             {
-                _webSocketsService.SendMessage(new ControllMessage
+                _webSocketsService.SendMessage(new ControlMessage
                 {
                     Content = _messageService.ParseMessage(new UserInfo
                     {

@@ -4,8 +4,7 @@
 	{
 		Code,
 		Chat, 
-		Controll,
-		Error,
-		JHS
+		Control,
+		Error
 	}
 }

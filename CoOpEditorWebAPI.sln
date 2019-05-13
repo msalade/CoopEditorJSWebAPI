@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoopEditorJSWebAPI", "CoopEditorJSWebAPI\CoopEditorJSWebAPI.csproj", "{3C10DA6E-CA1A-4A12-8E07-D9E06185182D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoOpEditor.WebAPI", "CoopEditorJSWebAPI\CoOpEditor.WebAPI.csproj", "{3C10DA6E-CA1A-4A12-8E07-D9E06185182D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoopEditorJSEnitites", "CoopEditorJSEnitites\CoopEditorJSEnitites.csproj", "{B7D25090-EF8F-47BC-9DDD-14E3FB9C816C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoOpEditor.Enitites", "CoopEditorJSEnitites\CoOpEditor.Enitites.csproj", "{B7D25090-EF8F-47BC-9DDD-14E3FB9C816C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoopEditorJsServices", "CoopEditorJsServices\CoopEditorJsServices.csproj", "{3FB66E08-F347-4DA8-805E-902EEC83869A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoOpEditor.Services", "CoopEditorJsServices\CoOpEditor.Services.csproj", "{3FB66E08-F347-4DA8-805E-902EEC83869A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

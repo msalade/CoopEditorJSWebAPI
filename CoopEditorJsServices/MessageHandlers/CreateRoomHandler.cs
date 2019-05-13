@@ -5,7 +5,7 @@ using CoopEditorJSEnitites.Messages;
 
 namespace CoopEditorJsServices.MessageHandlers
 {
-    class CreateRoomHandler : BaseMessageHandler<ControllMessage>
+    class CreateRoomHandler : BaseMessageHandler<ControlMessage>
     {
         private readonly IWebSocketsService _webSocketsService;
         private readonly IMessageService _messageService;
@@ -17,13 +17,13 @@ namespace CoopEditorJsServices.MessageHandlers
             _messageService = messageService;
         }
 
-        public bool Handle(ControllMessage message)
+        public bool Handle(ControlMessage message)
         {
             if (message.CommandType == CommandsTypes.CreateRoom)
             {
                 var romId = _roomService.CreateRoom(message.User, message.Content);
 
-                _webSocketsService.SendMessage(new ControllMessage
+                _webSocketsService.SendMessage(new ControlMessage
                 {
                     Content = _messageService.ParseMessage(new UserInfo { RoomId = romId, Rooms = _roomService.GetAllRooms() }),
                     CommandType = CommandsTypes.UpdateInformation,
