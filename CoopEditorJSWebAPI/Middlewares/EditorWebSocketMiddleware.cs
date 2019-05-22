@@ -3,10 +3,10 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites.Messages;
-using CoopEditorJSWebAPI.Configuration;
+using CoOpEditor.WebAPI.Configuration;
 using Microsoft.AspNetCore.Http;
 
-namespace CoopEditorJsServices.Middleware
+namespace CoOpEditor.WebAPI.Middlewares
 {
 	public sealed class EditorWebSocketMiddleware
 	{
