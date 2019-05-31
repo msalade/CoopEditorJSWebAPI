@@ -9,6 +9,7 @@ namespace CoopEditorJSEnitites.Messages
 		public ErrorMessage(string content)
 		{
 			Content = content;
+            User = new User();
 		}
 
 		public string Content { get; set; }

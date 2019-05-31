@@ -3,10 +3,10 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using CoopEditorJsServices.Interfaces;
 using CoopEditorJSEnitites.Messages;
-using CoopEditorJSWebAPI.Configuration;
+using CoOpEditor.WebAPI.Configuration;
 using Microsoft.AspNetCore.Http;
 
-namespace CoopEditorJsServices.Middleware
+namespace CoOpEditor.WebAPI.Middlewares
 {
 	public sealed class EditorWebSocketMiddleware
 	{
@@ -33,6 +33,7 @@ namespace CoopEditorJsServices.Middleware
 
 			var requestToken = context.RequestAborted;
 			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var userId = Guid.NewGuid().ToString();
 
             while (currentSocket.State == WebSocketState.Open && !requestToken.IsCancellationRequested)
 			{
@@ -44,6 +45,9 @@ namespace CoopEditorJsServices.Middleware
                     {
                          var extractedMessage = _messageService.DeserializeMessage(rawMessage);
                          extractedMessage.User.WebSocket = currentSocket;
+
+                         if (string.IsNullOrEmpty(extractedMessage.User.Id))
+                            extractedMessage.User.Id = userId;
 
                         _messageProcessor.ProcessMessage(extractedMessage);
                     }

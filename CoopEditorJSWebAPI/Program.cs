@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using CoOpEditor.WebAPI;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace CoopEditorJSWebAPI
@@ -12,6 +13,7 @@ namespace CoopEditorJSWebAPI
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
-				.UseStartup<Startup>();
+                .UseIISIntegration()
+                .UseStartup<Startup>();
 	}
 }

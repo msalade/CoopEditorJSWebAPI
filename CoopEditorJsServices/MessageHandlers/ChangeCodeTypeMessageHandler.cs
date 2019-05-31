@@ -6,7 +6,7 @@ using CoopEditorJSEnitites.Messages;
 
 namespace CoopEditorJsServices.MessageHandlers
 {
-    public class ChangeCodeTypeMessageHandler : BaseMessageHandler<ControllMessage>
+    public class ChangeCodeTypeMessageHandler : BaseMessageHandler<ControlMessage>
     {
         private readonly IWebSocketsService _webSocketsService;
 
@@ -15,7 +15,7 @@ namespace CoopEditorJsServices.MessageHandlers
             _webSocketsService = webSocketsService;
         }
 
-        public bool Handle(ControllMessage message)
+        public bool Handle(ControlMessage message)
         {
             if (message.CommandType == CommandsTypes.ChangeCodeType)
             {
@@ -23,15 +23,14 @@ namespace CoopEditorJsServices.MessageHandlers
 
                 if (targetRoom != null)
                 {
-                    object languageType;
-                    Enum.TryParse(typeof(LanguagesTypes), message.Content, out languageType);
+                    Enum.TryParse(typeof(LanguagesTypes), message.Content, out var languageType);
                     targetRoom.TypeCode = (LanguagesTypes)languageType;
 
                     if (targetRoom.UsersList != null)
                         foreach (var user in targetRoom.UsersList)
                         {
                             if (user.WebSocket.State == WebSocketState.Open)
-                                _webSocketsService.SendMessage(new ControllMessage
+                                _webSocketsService.SendMessage(new ControlMessage
                                 {
                                     Content = message.Content,
                                     CommandType = CommandsTypes.ChangeCodeType

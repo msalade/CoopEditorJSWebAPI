@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 
-namespace CoopEditorJSWebAPI.Configuration
+namespace CoOpEditor.WebAPI.Configuration
 {
 	public static class DependencyInjectionConfiguration
 	{

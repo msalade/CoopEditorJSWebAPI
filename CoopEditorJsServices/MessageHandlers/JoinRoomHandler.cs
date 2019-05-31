@@ -4,7 +4,7 @@ using CoopEditorJSEnitites.Messages;
 
 namespace CoopEditorJsServices.MessageHandlers
 {
-    class JoinRoomHandler : BaseMessageHandler<ControllMessage>
+    class JoinRoomHandler : BaseMessageHandler<ControlMessage>
     {
         private readonly IWebSocketsService _webSocketsService;
 
@@ -13,7 +13,7 @@ namespace CoopEditorJsServices.MessageHandlers
             _webSocketsService = webSocketsService;
         }
 
-        public bool Handle(ControllMessage message)
+        public bool Handle(ControlMessage message)
         {
             if (message.CommandType == CommandsTypes.JoinToRoom)
             {

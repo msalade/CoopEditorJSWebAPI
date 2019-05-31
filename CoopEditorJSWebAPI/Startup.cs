@@ -1,5 +1,5 @@
-﻿using CoopEditorJsServices.Middleware;
-using CoopEditorJSWebAPI.Configuration;
+﻿using CoOpEditor.WebAPI.Configuration;
+using CoOpEditor.WebAPI.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace CoopEditorJSWebAPI
+namespace CoOpEditor.WebAPI
 {
 	public class Startup
 	{
