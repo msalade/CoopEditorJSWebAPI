@@ -23,7 +23,7 @@ namespace CoopEditorJsServices.MessageHandlers
                 _roomService.EnterRoom(message.User, message.RoomId);
 
                 foreach (var user in targetRoom.UsersList)
-                    if(user.WebSocket.State == WebSocketState.Open)
+                    if(user.WebSocket.State == WebSocketState.Open && user.Id != message.User?.Id)
                         _webSocketsService.SendMessage(message, user.WebSocket);
             }
 

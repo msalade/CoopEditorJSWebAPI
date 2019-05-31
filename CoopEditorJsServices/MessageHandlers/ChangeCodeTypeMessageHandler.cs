@@ -23,8 +23,7 @@ namespace CoopEditorJsServices.MessageHandlers
 
                 if (targetRoom != null)
                 {
-                    object languageType;
-                    Enum.TryParse(typeof(LanguagesTypes), message.Content, out languageType);
+                    Enum.TryParse(typeof(LanguagesTypes), message.Content, out var languageType);
                     targetRoom.TypeCode = (LanguagesTypes)languageType;
 
                     if (targetRoom.UsersList != null)

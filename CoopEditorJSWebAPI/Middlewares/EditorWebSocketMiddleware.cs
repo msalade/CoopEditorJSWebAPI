@@ -33,6 +33,7 @@ namespace CoOpEditor.WebAPI.Middlewares
 
 			var requestToken = context.RequestAborted;
 			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var userId = Guid.NewGuid().ToString();
 
             while (currentSocket.State == WebSocketState.Open && !requestToken.IsCancellationRequested)
 			{
@@ -44,6 +45,9 @@ namespace CoOpEditor.WebAPI.Middlewares
                     {
                          var extractedMessage = _messageService.DeserializeMessage(rawMessage);
                          extractedMessage.User.WebSocket = currentSocket;
+
+                         if (string.IsNullOrEmpty(extractedMessage.User.Id))
+                            extractedMessage.User.Id = userId;
 
                         _messageProcessor.ProcessMessage(extractedMessage);
                     }

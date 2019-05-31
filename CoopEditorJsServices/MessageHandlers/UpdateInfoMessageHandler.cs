@@ -28,7 +28,7 @@ namespace CoopEditorJsServices.MessageHandlers
                     {
                         RoomId = message.RoomId,
                         Rooms = _roomService.GetAllRooms(),
-                        UserId = String.IsNullOrEmpty(message.User.Id) ? Guid.NewGuid().ToString() : message.User.Id
+                        UserId = message.User.Id
                     }),
                     CommandType = CommandsTypes.UpdateInformation,
                     User = null
