@@ -5,6 +5,7 @@
 		CreateRoom,
 		JoinToRoom,
 		ExitRoom,
+        DeleteRoom,
         UpdateInformation,
         ChangeCodeType
 	}
