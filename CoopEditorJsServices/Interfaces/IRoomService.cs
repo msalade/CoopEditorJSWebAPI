@@ -10,6 +10,7 @@ namespace CoopEditorJsServices.Interfaces
 		User GetUser(string id, string roomId);
 		void EnterRoom(User user, string roomId);
 		string CreateRoom(User user, string roomName = "");
+        void RemoveRoom(string roomId);
         void UpdateRoomContent(string content, string roomId);
         void SendChatMessage(ChatElement chatMessage, string roomId);
         IEnumerable<Room> GetAllRooms();

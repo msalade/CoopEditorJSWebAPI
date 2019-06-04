@@ -54,6 +54,14 @@ namespace CoopEditorJsServices
 			return newRoom.Id;
 		}
 
+        public void RemoveRoom(string roomId)
+        {
+            var roomToRemove = _privateRooms?.FirstOrDefault(room => room?.Id == roomId);
+
+            if (roomToRemove != null)
+                _privateRooms.Remove(roomToRemove);
+        }
+
         public void UpdateRoomContent(string content, string roomId)
         {
             Task.Run(() =>
